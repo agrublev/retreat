@@ -1,21 +1,29 @@
 import { hot } from "react-hot-loader/root";
-import React from "react";
+import React, { Component } from "react";
 import "./App.less";
 import { observer } from "mobx-react";
-import { observable } from "mobx";
 import { db } from "../../data/index.js";
 import TaskItem from "../../data/TaskItem.js";
 
 @observer
-class DataManager extends React.Component {
-    @observable data = { items: [], name: "Noname" };
-    @observable shouldShowEditList = false;
-    @observable beingEditedItem = -1;
-    refItems = {};
+class DataManager extends Component {
+    state = {
+        data: {
+            items: [],
+            name: "Noname"
+        },
+        shouldShowEditList: false,
+        beingEditedItem: -1
+    };
+
+    constructor(props) {
+        super(props);
+        this.refItems = {};
+    }
 
     async componentDidMount() {
-        this.data = (await db.get("data")) || this.data;
-        console.warn("DATA", this.data);
+        this.setState({ data: (await db.get("data")) || this.state.data });
+        console.warn("DATA", this.state.data);
     }
 
     render() {
@@ -27,30 +35,32 @@ class DataManager extends React.Component {
 
                 <div>
                     <div className={"list-name"}>
-                        {this.shouldShowEditList ? (
+                        {this.state.shouldShowEditList ? (
                             <div>
                                 Update name:
                                 <input
-                                    defaultValue={this.data.name}
+                                    defaultValue={this.state.data.name}
                                     onKeyUp={async e => {
                                         await this.updateData({ name: e.target.value });
                                     }}
                                 />
                             </div>
                         ) : (
-                            <h2>Name: {this.data.name}</h2>
+                            <h2>Name: {this.state.data.name}</h2>
                         )}
                         <button
                             onClick={() => {
-                                this.shouldShowEditList = !this.shouldShowEditList;
+                                this.setState({
+                                    shouldShowEditList: !this.state.shouldShowEditList
+                                });
                             }}
                         >
-                            {this.shouldShowEditList ? "Done" : "Edit"}
+                            {this.state.shouldShowEditList ? "Done" : "Edit"}
                         </button>
                     </div>
                     <h4>Items</h4>
                     <ul>
-                        {this.data.items.map((item, ind) => (
+                        {this.state.data.items.map((item, ind) => (
                             <TaskItem
                                 item={item}
                                 key={item.uid}
@@ -79,19 +89,21 @@ class DataManager extends React.Component {
     }
 
     addItem = async () => {
-        this.data.items.push({ title: this.ref.value, uid: Date.now() });
+        this.state.data.items.push({ title: this.ref.value, uid: Date.now() });
         this.ref.value = "";
-        await this.updateData({ items: this.data.items });
+        await this.updateData({ items: this.state.data.items });
     };
 
     deleteItem = async ind => {
-        this.data.items.splice(ind, 1);
-        await this.updateData({ items: this.data.items });
+        this.state.data.items.splice(ind, 1);
+        await this.updateData({
+            items: this.state.data.items
+        });
     };
 
     updateData = async newData => {
         await db.update("data", newData);
-        this.data = (await db.get("data")) || this.data;
+        this.setState({ data: (await db.get("data")) || this.state.data });
     };
 
     clearData = async () => {
