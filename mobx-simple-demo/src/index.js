@@ -1,27 +1,31 @@
 import React from "react";
 import { render } from "react-dom";
-import { observable } from "mobx";
+import { observable, action } from "mobx";
 import { observer } from "mobx-react";
 import DevTools from "mobx-react-devtools";
 import { getNextId, initData } from "./utils";
 
-import { types } from "mobx-state-tree";
+class ItemModel {
+  @observable id;
+  @observable title;
 
-export const Item = types
-  .model("ItemModel", {
-    id: types.optional(types.number, () => Math.random()),
-    title: types.string
-  });
+  constructor(id, title) {
+    this.id = id;
+    this.title = title;
+  }
+}
 
-export const MobxStore = types
-  .model("TodoStore", {
-    items: types.array(Item)
-  })
-  .actions(self => ({
-    addNew(title) {
-      self.items.push({ id: getNextId(self.items), title });
-    }
-  }));
+class MobxStore {
+  @observable items = [];
+
+  constructor(initData) {
+    this.items = initData.items;
+  }
+
+  @action addNew(title) {
+    this.items.push(new ItemModel(getNextId(this.items), title));
+  }
+}
 
 @observer
 class MobxView extends React.Component {
@@ -39,8 +43,8 @@ class MobxView extends React.Component {
   render() {
     return (
       <div>
-        <h1>Mobx State Tree</h1>
-        <h2>Task list demo:</h2>
+        <h1>Mobx + React</h1>
+        <h2>Demo task list.</h2>
         <input value={this.inputValue} onChange={this.inputChange}/>
         <button onClick={this.addNew}>Add</button>
         <ul>
@@ -58,7 +62,7 @@ class MobxView extends React.Component {
 
 render(
   <div>
-    <MobxView store={MobxStore.create(initData)}/>
+    <MobxView store={new MobxStore(initData)}/>
     <DevTools/>
   </div>,
   document.getElementById("root")
