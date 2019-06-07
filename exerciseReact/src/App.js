@@ -36,8 +36,8 @@ class SampleComponent extends React.Component {
         const { someNumber } = this.state;
         if (someNumber === 1) renderToConsole("render", "called after constructor");
         return (
-            <div className="App">
-                <h1>Our component</h1>
+            <div className="SampleComponent">
+                <h2>SampleComponent</h2>
                 <div>
                     State has someNumber with value <b>{someNumber}</b>
                 </div>
