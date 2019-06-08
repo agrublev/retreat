@@ -10,6 +10,13 @@ module.exports = {
 	"ecmaFeatures": {
 		"jsx": true
 	},
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
 	rules: {
 		"no-mixed-operators": ["off"],
 		"no-console": ["off"],
