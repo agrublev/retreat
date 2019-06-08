@@ -1,0 +1,110 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 10rem;
+  pointer-events: none;
+  padding-top: 2rem;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  color: white;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.App-input {
+  margin: auto;
+  width: 45%;
+  display: flex;
+}
+
+.App-input button {
+  background: #3737a0;
+  color: white;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+.App-list {
+  width: 50%;
+  margin: 23rem auto 3rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+.App-list-empty {
+  color: gray;
+  background: white;
+  /* margin: 1rem; */
+  padding: 1rem;
+  text-align: center;
+}
+
+.App-list-item {
+  margin: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  border: #98a9c7 1px solid;
+}
+
+.App-list-item-title {
+  font-weight: 800;
+  font-size: larger;
+  flex: auto;
+  margin-left: 0.5rem;
+}
+
+.App-list-item-title.App-done {
+  text-decoration: line-through;
+  color: #6f917d;
+}
+
+.App-list-item-id {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.App-list-item-id span {
+  margin-top: 2px;
+  display: block;
+}
+
+.App-list-item-id.App-done {
+  background: green;
+  color: white;
+}
+
+.App-list-item-id.App-new {
+  background: white;
+  color: gray;
+  border: gray 1px solid;
+}
+
+button.App-new {
+  background: green;
+  color: white;
+}
+
+button.App-done {
+  background: #b31aff;
+  color: white;
+}
+
+button.App-danger {
+  background: red;
+  color: white;
+}
