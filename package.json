@@ -55,6 +55,7 @@
         "react": "^15.0.0 || ^16.0.0",
         "react-dom": "^15.0.0 || ^16.0.0",
         "react-hot-loader": "^4.9.0",
+        "react-if": "^3.4.1",
         "react-konsul": "^1.8.0",
         "source-map-loader": "^0.2.4",
         "style-loader": "^0.23.1",
